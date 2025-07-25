@@ -1,0 +1,38 @@
+{
+  "canisters": {
+    "iNextAi-EBTS-backend": {
+      "build": "python -m kybra iNextAi-EBTS-backend src/iNextAi-EBTS-backend/src/main.py src/iNextAi-EBTS-backend/iNextAi-EBTS-backend.did",
+      "candid": "src/iNextAi-EBTS-backend/iNextAi-EBTS-backend.did",
+      "gzip": true,
+      "post_install": ".kybra/iNextAi-EBTS-backend/post_install.sh",
+      "tech_stack": {
+        "cdk": {
+          "kybra": {}
+        },
+        "language": {
+          "python": {}
+        }
+      },
+      "type": "custom",
+      "wasm": ".kybra/iNextAi-EBTS-backend/iNextAi-EBTS-backend.wasm"
+    },
+    "iNextAi-EBTS-frontend": {
+      "dependencies": [
+        "iNextAi-EBTS-backend"
+      ],
+      "source": [
+        "src/iNextAi-EBTS-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "iNextAi-EBTS-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
