@@ -1,4 +1,6 @@
-import { Brain, Heart, Shield, Zap, Target, Globe } from "lucide-react";
+import { Brain, Heart, Shield, Zap, Target, Globe, Loader2 } from "lucide-react";
+import { useAuth } from "@/lib/api/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const features = [
   {
@@ -40,6 +42,26 @@ const features = [
 ];
 
 const FeatureHighlights = () => {
+  const { isAuthenticated, isLoading, login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      await login();
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  const handleAction = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      handleLogin();
+    }
+  };
+
   return (
     <section className="py-20 bg-gradient-to-b from-card/20 to-background">
       <div className="container mx-auto px-6">
@@ -48,29 +70,20 @@ const FeatureHighlights = () => {
             Powered by iNextAI Intelligence
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Revolutionary emotion-aware trading platform that combines artificial intelligence with human psychology
+            Experience the future of trading with AI-powered insights and emotion-aware decision making
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
-              <div 
-                key={index}
-                className="glass-card p-8 rounded-2xl group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10"
-              >
-                <div className="mb-6">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-${feature.color.split('-')[1]}/20 to-${feature.color.split('-')[1]}/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className={`w-8 h-8 ${feature.color}`} />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">
-                    {feature.title}
-                  </h3>
+              <div key={index} className="glass-card p-6 rounded-2xl hover:scale-105 transition-transform duration-300">
+                <div className={`w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 ${feature.color}`}>
+                  <IconComponent className="h-6 w-6" />
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
               </div>
             );
           })}
@@ -87,10 +100,20 @@ const FeatureHighlights = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                className="bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/25"
-                onClick={() => window.open('https://identity.ic0.app/#authorize', '_blank')}
+                className="bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={handleAction}
+                disabled={isLoading}
               >
-                Start Trading Now
+                {isLoading ? (
+                  <>
+                    <Loader2 className="inline mr-2 h-5 w-5 animate-spin" />
+                    Connecting...
+                  </>
+                ) : isAuthenticated ? (
+                  "Go to Dashboard"
+                ) : (
+                  "Start Trading Now"
+                )}
               </button>
               <button className="border border-primary/50 text-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary/10 transition-colors duration-300">
                 Learn More
