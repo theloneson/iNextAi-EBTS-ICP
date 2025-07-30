@@ -1,9 +1,10 @@
-import { TrendingUp, BarChart3, PieChart, Settings, User, Activity, Menu, Bot, Sun, Moon, Zap } from "lucide-react";
+import { TrendingUp, BarChart3, PieChart, Settings, User, Activity, Menu, Bot, Sun, Moon, Zap, LogOut } from "lucide-react";
 import copilotLogo from "@/assets/copilot-logo.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/api/hooks/useAuth";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -13,98 +14,142 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const sidebarItems = [
-    { icon: TrendingUp, label: "Dashboard", path: "/", active: location.pathname === "/" },
-    { icon: BarChart3, label: "Analytics", path: "/analytics", active: location.pathname === "/analytics" },
-    { icon: Zap, label: "Trading Simulator", path: "/trading", active: location.pathname === "/trading" },
-    { icon: PieChart, label: "Portfolio", path: "/portfolio", active: location.pathname === "/portfolio" },
-    { icon: Activity, label: "Performance", path: "/performance", active: location.pathname === "/performance" },
-    { icon: Bot, label: "AI Copilot", path: "/copilot", active: location.pathname === "/copilot", customIcon: copilotLogo },
-    { icon: Settings, label: "Settings", path: "/settings", active: location.pathname === "/settings" },
-    { icon: User, label: "Profile", path: "/profile", active: location.pathname === "/profile" },
-  ];
+  const { isAuthenticated, principal, logout, isLoading } = useAuth();
+
+  // Redirect to landing page if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, isLoading, navigate]);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render dashboard if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col md:flex-row">
-      {/* Mobile Header */}
-      <header className="md:hidden h-16 glass-card border-b border-white/10 flex items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 text-foreground hover:bg-white/10 rounded-lg"
-          >
-            <Menu size={20} />
-          </button>
-          <div className="w-6 h-6 gradient-primary rounded-md flex items-center justify-center glow-primary">
-            <span className="text-white font-bold text-xs">iN</span>
-          </div>
-          <span className="text-lg font-bold gradient-primary bg-clip-text text-transparent">iNext AI</span>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <div className="glass-card px-2 py-1 rounded-lg">
-            <div className="text-xs font-bold text-success">$24.5K</div>
-          </div>
-          <div className="w-6 h-6 gradient-primary rounded-full glow-primary flex items-center justify-center">
-            <span className="text-white text-xs font-bold">JD</span>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background flex">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
-          className="md:hidden fixed inset-0 bg-black/50 z-40"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Left Sidebar */}
-      <aside className={`${
+      {/* Sidebar */}
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-card/80 backdrop-blur-xl border-r border-white/10 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      } md:translate-x-0 fixed md:relative z-50 w-16 glass-card border-r border-white/10 flex flex-col items-center py-6 space-y-4 transition-transform duration-300`}>
-        {/* Logo - Hidden on mobile since it's in header */}
-        <div className="hidden md:block w-8 h-8 gradient-primary rounded-lg flex items-center justify-center mb-4 glow-primary">
-          <span className="text-white font-bold text-sm">iN</span>
-        </div>
-        
-        {/* Navigation Icons */}
-        {sidebarItems.map((item, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              navigate(item.path);
-              setSidebarOpen(false);
-            }}
-            className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 group relative ${
-              item.active 
-                ? "gradient-primary text-white glow-primary" 
-                : "text-muted-foreground hover:bg-white/10 hover:text-foreground"
-            }`}
-            title={item.label}
-            >
-            {item.customIcon ? (
-              <img src={item.customIcon} alt={item.label} className="w-5 h-5" />
-            ) : (
-              <item.icon size={20} />
-            )}
-            
-            {/* Tooltip for desktop */}
-            <div className="absolute left-14 bg-card border border-border rounded-lg px-2 py-1 text-xs text-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 hidden md:block">
-              {item.label}
+      }`}>
+        <div className="flex flex-col h-full">
+          {/* Logo */}
+          <div className="p-6 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center">
+                <Zap className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold gradient-primary bg-clip-text text-transparent">iNext AI</h1>
+                <p className="text-xs text-muted-foreground">Trading Platform</p>
+              </div>
             </div>
-          </button>
-        ))}
-        
-        {/* Theme Toggle */}
-        <div className="mt-auto">
-          <ThemeToggle />
+          </div>
+
+          {/* User Info */}
+          <div className="p-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center">
+                <User className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">Connected</p>
+                <p className="text-xs text-muted-foreground font-mono truncate">
+                  {principal}
+                </p>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="h-8 w-8 p-0"
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2">
+            <Button
+              variant={location.pathname === '/dashboard' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => navigate('/dashboard')}
+            >
+              <TrendingUp className="mr-3 h-4 w-4" />
+              Dashboard
+            </Button>
+            <Button
+              variant={location.pathname === '/trading' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => navigate('/trading')}
+            >
+              <BarChart3 className="mr-3 h-4 w-4" />
+              Trading
+            </Button>
+            <Button
+              variant={location.pathname === '/copilot' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => navigate('/copilot')}
+            >
+              <Bot className="mr-3 h-4 w-4" />
+              AI Copilot
+            </Button>
+          </nav>
+
+          {/* Bottom Section */}
+          <div className="p-4 border-t border-white/10">
+            <ThemeToggle />
+          </div>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col md:ml-64">
+        {/* Mobile Header */}
+        <header className="md:hidden h-16 glass-card border-b border-white/10 flex items-center justify-between px-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          <span className="text-lg font-bold gradient-primary bg-clip-text text-transparent">iNext AI</span>
+          <ThemeToggle />
+        </header>
+
         {/* Desktop Header */}
         <header className="hidden md:flex h-16 glass-card border-b border-white/10 items-center justify-between px-6">
           <div className="flex items-center gap-4">
@@ -133,18 +178,25 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <span className="text-xs text-muted-foreground">AI Copilot</span>
             </Button>
             <ThemeToggle />
-            <div className="w-8 h-8 gradient-primary rounded-full glow-primary flex items-center justify-center">
-              <span className="text-white text-sm font-bold">JD</span>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 gradient-primary rounded-full glow-primary flex items-center justify-center">
+                <span className="text-white text-sm font-bold">JD</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="text-xs"
+              >
+                <LogOut className="h-3 w-3 mr-1" />
+                Logout
+              </Button>
             </div>
           </div>
         </header>
 
         {/* Page Content */}
         <main className="flex-1 p-3 md:p-6">
-          <div className="flex items-center gap-2 mb-4 md:mb-6">
-            <TrendingUp className="text-primary" size={20} />
-            <h1 className="text-lg md:text-xl font-semibold text-foreground">Trading Dashboard</h1>
-          </div>
           {children}
         </main>
       </div>
