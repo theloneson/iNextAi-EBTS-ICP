@@ -23,7 +23,8 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@LandingPageUI/*": ["./src/components/LandingPageUI/*"]
     }
   },
   "include": ["src"]

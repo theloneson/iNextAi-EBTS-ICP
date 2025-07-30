@@ -1,20 +1,8 @@
 {
   "canisters": {
     "iNextAi-EBTS-backend": {
-      "build": "python -m kybra iNextAi-EBTS-backend src/iNextAi-EBTS-backend/src/main.py src/iNextAi-EBTS-backend/iNextAi-EBTS-backend.did",
-      "candid": "src/iNextAi-EBTS-backend/iNextAi-EBTS-backend.did",
-      "gzip": true,
-      "post_install": ".kybra/iNextAi-EBTS-backend/post_install.sh",
-      "tech_stack": {
-        "cdk": {
-          "kybra": {}
-        },
-        "language": {
-          "python": {}
-        }
-      },
-      "type": "custom",
-      "wasm": ".kybra/iNextAi-EBTS-backend/iNextAi-EBTS-backend.wasm"
+      "main": "src/iNextAi-EBTS-backend/main.mo",
+      "type": "motoko"
     },
     "iNextAi-EBTS-frontend": {
       "dependencies": [
@@ -25,9 +13,27 @@
       ],
       "type": "assets",
       "workspace": "iNextAi-EBTS-frontend"
+    },
+    "internet_identity": {
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "frontend": {},
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "type": "custom",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz"
     }
   },
   "defaults": {
+    "bitcoin": {
+      "enabled": true,
+      "log_level": "info",
+      "nodes": [
+        "127.0.0.1:18444"
+      ]
+    },
     "build": {
       "args": "",
       "packtool": ""
