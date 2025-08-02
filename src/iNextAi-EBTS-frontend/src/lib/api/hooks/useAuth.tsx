@@ -23,6 +23,8 @@ export interface AuthState {
   isLoading: boolean;
   error: string | null;
 
+
+
   // Actions
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -45,7 +47,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       const authClient = await AuthClient.create({
         idleOptions: {
-          idleTimeout: 10 * 60 * 1000, // 10 minutes
+          idleTimeout: 10 * 60 * 1000, // 10 minutes in milliseconds
           onIdle: () => {
             get().logout();
           },
