@@ -8,7 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@LandingPageUI/*": ["./src/components/LandingPageUI/*"]
+      "@LandingPageUI/*": ["./src/components/LandingPageUI/*"],
+      "declarations/*": ["../declarations/*"]
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
