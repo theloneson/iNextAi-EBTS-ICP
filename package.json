@@ -5,13 +5,13 @@
   },
   "name": "iNextAi-EBTS",
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "prebuild": "npm run prebuild --workspaces --if-present",
-    "pretest": "npm run prebuild --workspaces --if-present",
-    "start": "npm start --workspaces --if-present",
-    "test": "npm test --workspaces --if-present",
-    "dev": "npm run dev --workspaces --if-present",
-    "install": "npm install --workspaces --if-present"
+    "build": "bun run build --workspaces --if-present",
+    "prebuild": "bun run prebuild --workspaces --if-present",
+    "pretest": "bun run prebuild --workspaces --if-present",
+    "start": "bun start --workspaces --if-present",
+    "test": "bun test --workspaces --if-present",
+    "dev": "bun run dev --workspaces --if-present",
+    "install": "bun install --workspaces --if-present"
   },
   "type": "module",
   "workspaces": [
