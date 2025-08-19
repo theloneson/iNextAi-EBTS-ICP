@@ -10,8 +10,7 @@
     "pretest": "bun run prebuild --workspaces --if-present",
     "start": "bun start --workspaces --if-present",
     "test": "bun test --workspaces --if-present",
-    "dev": "bun run dev --workspaces --if-present",
-    "install": "bun install --workspaces --if-present"
+    "dev": "bun run dev --workspaces --if-present"
   },
   "type": "module",
   "workspaces": [
