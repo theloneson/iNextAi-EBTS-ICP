@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { AuthClient } from "@dfinity/auth-client";
 import { Identity } from "@dfinity/agent";
 
+const localLink = import.meta.env.CANISTER_ID_INTERNET_IDENTITY || "vizcg-th777-77774-qaaea-cai"
 // Internet Identity configuration based on environment
 const getIdentityProvider = () => {
   const network = process.env.DFX_NETWORK || "local";
@@ -11,7 +12,7 @@ const getIdentityProvider = () => {
     return "https://identity.ic0.app";
   } else {
     // Development - Local
-    return "http://umunu-kh777-77774-qaaca-cai.localhost:4943";
+    return `${localLink}.localhost:4943`;
   }
 };
 

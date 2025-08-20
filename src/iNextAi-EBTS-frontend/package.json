@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "setup": "bun i && dfx canister create iNextAi-EBTS-backend && dfx generate iNextAi-EBTS-backend && dfx deploy",
+    "setup": "bun i && dfx canister create backend && dfx generate backend && dfx deploy",
     "start": "vite --port 3000",
     "prebuild": "dfx generate",
     "build": "tsc && vite build",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Button } from "@/components/ui/button";
+import ConnectButton from "../LandingPage/WalletConnectButton";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const sidebarItems = [
     { icon: TrendingUp, label: "Dashboard", path: "/", active: location.pathname === "/" },
     { icon: BarChart3, label: "Analytics", path: "/analytics", active: location.pathname === "/analytics" },
@@ -41,7 +42,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
           <span className="text-lg font-bold gradient-primary bg-clip-text text-transparent">iNext AI</span>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <div className="glass-card px-2 py-1 rounded-lg">
             <div className="text-xs font-bold text-success">$24.5K</div>
@@ -54,21 +55,20 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="md:hidden fixed inset-0 bg-black/50 z-40"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Left Sidebar */}
-      <aside className={`${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      } md:translate-x-0 fixed md:relative z-50 w-16 glass-card border-r border-white/10 flex flex-col items-center py-6 space-y-4 transition-transform duration-300`}>
+      <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0 fixed md:relative z-50 w-16 glass-card border-r border-white/10 flex flex-col items-center py-6 space-y-4 transition-transform duration-300`}>
         {/* Logo - Hidden on mobile since it's in header */}
         <div className="hidden md:block w-8 h-8 gradient-primary rounded-lg flex items-center justify-center mb-4 glow-primary">
           <span className="text-white font-bold text-sm">iN</span>
         </div>
-        
+
         {/* Navigation Icons */}
         {sidebarItems.map((item, index) => (
           <button
@@ -77,26 +77,25 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               navigate(item.path);
               setSidebarOpen(false);
             }}
-            className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 group relative ${
-              item.active 
-                ? "gradient-primary text-white glow-primary" 
+            className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 group relative ${item.active
+                ? "gradient-primary text-white glow-primary"
                 : "text-muted-foreground hover:bg-white/10 hover:text-foreground"
-            }`}
+              }`}
             title={item.label}
-            >
+          >
             {item.customIcon ? (
               <img src={item.customIcon} alt={item.label} className="w-5 h-5" />
             ) : (
               <item.icon size={20} />
             )}
-            
+
             {/* Tooltip for desktop */}
             <div className="absolute left-14 bg-card border border-border rounded-lg px-2 py-1 text-xs text-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 hidden md:block">
               {item.label}
             </div>
           </button>
         ))}
-        
+
         {/* Theme Toggle */}
         <div className="mt-auto">
           <ThemeToggle />
@@ -113,7 +112,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               Emotional Trading Intelligence Platform
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 lg:gap-6">
             <div className="glass-card px-3 py-1 rounded-lg">
               <span className="text-xs lg:text-sm text-muted-foreground">Portfolio Value</span>
@@ -133,8 +132,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <span className="text-xs text-muted-foreground">AI Copilot</span>
             </Button>
             <ThemeToggle />
-            <div className="w-8 h-8 gradient-primary rounded-full glow-primary flex items-center justify-center">
-              <span className="text-white text-sm font-bold">JD</span>
+            <div className=" flex items-center justify-center">
+              <ConnectButton />
             </div>
           </div>
         </header>

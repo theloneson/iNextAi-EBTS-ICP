@@ -17,7 +17,7 @@
         "src/iNextAi-EBTS-frontend/dist"
       ],
       "type": "assets",
-      "workspace": "iNextAi-EBTS-frontend"
+      "workspace": "src/iNextAi-EBTS-frontend"
     },
     "internet_identity": {
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
