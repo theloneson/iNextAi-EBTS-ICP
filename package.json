@@ -3,14 +3,14 @@
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
   },
-  "name": "iNextAi-EBTS",
+  "name": "inextai-ebts",
   "scripts": {
     "build": "bun run build --workspaces --if-present",
     "prebuild": "bun run prebuild --workspaces --if-present",
     "pretest": "bun run prebuild --workspaces --if-present",
     "start": "bun start --workspaces --if-present",
     "test": "bun test --workspaces --if-present",
-    "dev": "bun run dev --workspaces --if-present"
+    "dev": "cd src/iNextAi-EBTS-frontend && bun dev"
   },
   "type": "module",
   "workspaces": [

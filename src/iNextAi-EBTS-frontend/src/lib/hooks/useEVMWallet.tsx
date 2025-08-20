@@ -1,63 +1,28 @@
-// hooks/useEVMWallet.ts
-import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from 'wagmi';
-import { useEffect } from 'react';
-import { useWalletStore } from '../store/wallet-store';
+import { useAppKit } from '@reown/appkit/react'
+import { useAccount, useDisconnect } from 'wagmi'
+import { useWalletStore } from '../store/wallet-store'
+import { useEffect } from 'react'
 
 export const useEVMWallet = () => {
-  const { address, isConnected, connector } = useAccount();
-  const { connect, connectors } = useConnect();
-  const { disconnect } = useDisconnect();
-  const chainId = useChainId();
-  const { switchChain } = useSwitchChain();
-  
-  const { setEVMConnection, setError } = useWalletStore();
+  const { open } = useAppKit()
+  const { address, isConnected, chainId } = useAccount()
+  const { disconnect } = useDisconnect()
+  const { setEVMConnection, setError } = useWalletStore()
 
-  // Sync Web3Modal state with our store
   useEffect(() => {
-    if (isConnected && address && connector) {
-      setEVMConnection(true, address, chainId, connector.name);
+    if (isConnected && address) {
+      setEVMConnection(true, address, chainId, 'Web3Modal')
     } else {
-      setEVMConnection(false);
+      setEVMConnection(false)
     }
-  }, [isConnected, address, chainId, connector, setEVMConnection]);
-
-  const connectWallet = async (connectorId?: string) => {
-    try {
-      const targetConnector = connectorId 
-        ? connectors.find(c => c.id === connectorId) || connectors[0]
-        : connectors[0];
-      
-      connect({ connector: targetConnector });
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to connect EVM wallet');
-    }
-  };
-
-  const disconnectWallet = async () => {
-    try {
-      disconnect();
-      setEVMConnection(false);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to disconnect EVM wallet');
-    }
-  };
-
-  const switchNetwork = async (targetChainId: number) => {
-    try {
-      switchChain({ chainId: targetChainId });
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to switch network');
-    }
-  };
+  }, [isConnected, address, chainId, setEVMConnection])
 
   return {
     isConnected,
     address,
     chainId,
-    connector,
-    connectors,
-    connect: connectWallet,
-    disconnect: disconnectWallet,
-    switchNetwork
-  };
-};
+    connect: () => open(),
+    disconnect,
+    switchNetwork: () => open({ view: 'Networks' })
+  }
+}

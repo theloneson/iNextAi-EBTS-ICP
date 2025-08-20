@@ -12,6 +12,14 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
   },
   optimizeDeps: {
+    include: [
+      '@stablelib/chacha20poly1305',
+      '@stablelib/hkdf',
+      '@stablelib/random',
+      '@stablelib/sha256',
+      '@stablelib/x25519'
+    ],
+    exclude: ['@walletconnect/relay-auth'],
     esbuildOptions: {
       define: {
         global: "globalThis",
@@ -42,19 +50,13 @@ export default defineConfig(({ mode }) => ({
           new URL("../declarations", import.meta.url)
         ),
       },
-      { 
-        find: "@", 
+      {
+        find: "@",
         replacement: fileURLToPath(new URL("./src", import.meta.url))
       },
-      { 
-        find: "@LandingPageUI", 
-        replacement: fileURLToPath(new URL("./src/components/LandingPageUI", import.meta.url))
-      },
       {
-        find: "@walletconnect/relay-auth",
-        replacement: fileURLToPath(
-          new URL("./node_modules/@walletconnect/relay-auth/dist/index.es.js", import.meta.url)
-        ),
+        find: "@LandingPageUI",
+        replacement: fileURLToPath(new URL("./src/components/LandingPageUI", import.meta.url))
       },
     ],
     dedupe: ['@dfinity/agent'],
