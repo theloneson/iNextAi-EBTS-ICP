@@ -11,7 +11,7 @@ import CopilotPage from "./pages/CopilotPage";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
-import { WalletProviders } from "./context/WalletProvider";
+import { AppKitProvider } from "./lib/config";
 
 const queryClient = new QueryClient();
 
@@ -24,8 +24,7 @@ const App = () => {
   }, [initialize]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <WalletProviders>
+    <AppKitProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -43,8 +42,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
-      </WalletProviders>
-    </QueryClientProvider>
+    </AppKitProvider>
   );
 };
 
