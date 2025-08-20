@@ -1,5 +1,5 @@
 import { Button } from "@/components/LandingPageUI/button";
-import { Brain, Wallet, TrendingUp, Loader2 } from "lucide-react";
+import { Brain, Wallet, TrendingUp, Loader2, AlertCircle } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 
@@ -53,7 +53,7 @@ const HeroSection = () => {
         {error && (
           <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-30">
             <Card className="bg-destructive/90 text-destructive-foreground p-4 flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
+              {/* <AlertCircle className="h-4 w-4" /> */}
               <span className="text-sm">{error}</span>
               <Button
                 variant="ghost"
