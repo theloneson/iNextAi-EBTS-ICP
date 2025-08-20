@@ -11,7 +11,7 @@ const getIdentityProvider = () => {
     return "https://identity.ic0.app";
   } else {
     // Development - Local
-    return "http://uzt4z-lp777-77774-qaabq-cai.localhost:4943/";
+    return "http://umunu-kh777-77774-qaaca-cai.localhost:4943";
   }
 };
 

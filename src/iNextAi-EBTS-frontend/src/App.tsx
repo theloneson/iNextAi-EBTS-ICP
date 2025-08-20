@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { useAuth } from "@/lib/api/hooks/useAuth";
+import { useAuth } from "@/lib/hooks/useAuth";
 import Index from "./pages/Index";
 import TradingSimulator from "./pages/TradingSimulator";
 import CopilotPage from "./pages/CopilotPage";
@@ -24,6 +24,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <WalletProviders>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -41,6 +42,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
+      </WalletProviders>
     </QueryClientProvider>
   );
 };

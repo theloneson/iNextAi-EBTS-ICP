@@ -5,153 +5,157 @@ import Array "mo:base/Array";
 import Buffer "mo:base/Buffer";
 import Result "mo:base/Result";
 import Iter "mo:base/Iter";
+import Text "mo:base/Text";
+import Nat "mo:base/Nat";
+import Nat8 "mo:base/Nat8";
+import Float "mo:base/Float";
+import Bool "mo:base/Bool";
+import Int "mo:base/Int";
+import Hash "mo:base/Hash";
 
-// ========== TYPE DEFINITIONS ========== // ...existing code...
-
-// Enums
-public type TradeDirection = { #Buy; #Sell };
-
-public type Blockchain = { #Ethereum; #Base; #Polygon; #Solana };
-
-public type EmotionType = {
-  #FOMO;
-  #Revenge;
-  #Greed;
-  #Fear;
-  #Overtrading;
-  #Neutral;
-};
-public type TradeStyle = { #Perpetual; #Degen; #Scalper; #Swing; #Unknown };
-public type FeedbackType = { #Warning; #Suggestion; #Praise; #Alert };
-public type UrgencyLevel = { #Low; #Medium; #High; #Critical };
-public type RiskLevel = { #Low; #Medium; #High; #Extreme };
-public type UserStatus = { #Active; #Suspended; #Inactive };
-public type AnalysisStatus = { #Pending; #Completed; #Failed };
-
-// Core Entities
-public type UserProfile = {
-  principalId : Principal;
-  walletAddresses : [(Blockchain, Text)]; // Network -> Address mapping
-  riskTolerance : Nat8; // 1-10 scale
-  registrationTime : Int;
-  lastActiveTime : Int;
-  emotionalArchetype : ?TradeStyle;
-  totalTrades : Nat;
-  weeklyTradeLimit : ?Nat;
-  status : UserStatus;
-  preferences : UserPreferences;
-};
-
-public type UserPreferences = {
-  enableRealTimeAlerts : Bool;
-  maxLeverageWarning : Nat8;
-  dailyTradingLimit : ?Float;
-  moodReminderFrequency : Nat; // hours
-  aiPersonality : Text; // "supportive", "strict", "balanced"
-};
-
-public type TradeRecord = {
-  tradeId : Text;
-  userPrincipal : Principal;
-  timestamp : Int;
-  blockchain : Blockchain;
-  contractAddress : ?Text;
-  tokenPair : Text;
-  direction : TradeDirection;
-  volume : Float;
-  entryPrice : Float;
-  exitPrice : ?Float;
-  leverage : ?Nat8;
-  profitLoss : ?Float;
-  gasFeePaid : ?Float;
-  liquidationPrice : ?Float;
-  holdingDuration : ?Int; // seconds
-  isActive : Bool; // position still open
-  emotionalTags : [EmotionType];
-  riskScore : Nat8; // 1-100
-};
-
-public type BehavioralAnalysis = {
-  analysisId : Text;
-  userPrincipal : Principal;
-  timestamp : Int;
-  tradeIds : [Text]; // trades analyzed
-  emotionScore : Nat8; // 0-100 stability
-  detectedEmotions : [EmotionType];
-  dominantEmotion : EmotionType;
-  tradeStyle : TradeStyle;
-  riskLevel : RiskLevel;
-  recommendationLevel : UrgencyLevel;
-  patternFlags : [Text]; // "revenge_trading", "fomo_buying"
-  streakData : StreakData;
-  status : AnalysisStatus;
-};
-
-public type StreakData = {
-  currentWinStreak : Nat;
-  currentLossStreak : Nat;
-  longestWinStreak : Nat;
-  longestLossStreak : Nat;
-  totalProfitable : Nat;
-  totalUnprofitable : Nat;
-};
-
-public type AIFeedback = {
-  feedbackId : Text;
-  userPrincipal : Principal;
-  analysisId : ?Text;
-  timestamp : Int;
-  feedbackType : FeedbackType;
-  title : Text;
-  message : Text;
-  urgency : UrgencyLevel;
-  actionableSteps : [Text];
-  userResponse : ?Bool;
-  responseTime : ?Int;
-  relatedTradeIds : [Text];
-};
-
-public type MoodCheckIn = {
-  checkInId : Text;
-  userPrincipal : Principal;
-  timestamp : Int;
-  moodScore : Nat8; // 1-10 happiness
-  stressLevel : Nat8; // 1-10 stress
-  confidenceLevel : Nat8; // 1-10 confidence
-  marketSentiment : Nat8; // 1-10 bullish
-  notes : ?Text;
-  tradingIntention : ?Text; // "bullish", "bearish", "neutral", "pause"
-};
-
-public type SimulationTrade = {
-  simTradeId : Text;
-  userPrincipal : Principal;
-  timestamp : Int;
-  tokenPair : Text;
-  direction : TradeDirection;
-  volume : Float;
-  entryPrice : Float;
-  exitPrice : ?Float;
-  leverage : ?Nat8;
-  simulatedPnL : ?Float;
-  isActive : Bool;
-  marketCondition : Text; // "bull", "bear", "sideways"
-};
-
-public type AlertRule = {
-  ruleId : Text;
-  userPrincipal : Principal;
-  name : Text;
-  condition : Text; // "leverage > 5", "loss_streak > 3"
-  isActive : Bool;
-  triggerCount : Nat;
-  lastTriggered : ?Int;
-};
-
-// ========== DATABASE ACTOR ========== // ...existing code...
-
+// ========== DATABASE ACTOR ========== //
 actor iNextDatabase {
-  // ...existing code...
+  // ========== TYPE DEFINITIONS ========== //
+  // Enums
+  type TradeDirection = { #Buy; #Sell };
+
+  type Blockchain = { #Ethereum; #Base; #Polygon; #Solana };
+
+  type EmotionType = {
+    #FOMO;
+    #Revenge;
+    #Greed;
+    #Fear;
+    #Overtrading;
+    #Neutral;
+  };
+  type TradeStyle = { #Perpetual; #Degen; #Scalper; #Swing; #Unknown };
+  type FeedbackType = { #Warning; #Suggestion; #Praise; #Alert };
+  type UrgencyLevel = { #Low; #Medium; #High; #Critical };
+  type RiskLevel = { #Low; #Medium; #High; #Extreme };
+  type UserStatus = { #Active; #Suspended; #Inactive };
+  type AnalysisStatus = { #Pending; #Completed; #Failed };
+
+  // Core Entities
+  type UserProfile = {
+    principalId : Principal;
+    walletAddresses : [(Blockchain, Text)]; // Network -> Address mapping
+    riskTolerance : Nat8; // 1-10 scale
+    registrationTime : Int;
+    lastActiveTime : Int;
+    emotionalArchetype : ?TradeStyle;
+    totalTrades : Nat;
+    weeklyTradeLimit : ?Nat;
+    status : UserStatus;
+    preferences : UserPreferences;
+  };
+
+  type UserPreferences = {
+    enableRealTimeAlerts : Bool;
+    maxLeverageWarning : Nat8;
+    dailyTradingLimit : ?Float;
+    moodReminderFrequency : Nat; // hours
+    aiPersonality : Text; // "supportive", "strict", "balanced"
+  };
+
+  type TradeRecord = {
+    tradeId : Text;
+    userPrincipal : Principal;
+    timestamp : Int;
+    blockchain : Blockchain;
+    contractAddress : ?Text;
+    tokenPair : Text;
+    direction : TradeDirection;
+    volume : Float;
+    entryPrice : Float;
+    exitPrice : ?Float;
+    leverage : ?Nat8;
+    profitLoss : ?Float;
+    gasFeePaid : ?Float;
+    liquidationPrice : ?Float;
+    holdingDuration : ?Int; // seconds
+    isActive : Bool; // position still open
+    emotionalTags : [EmotionType];
+    riskScore : Nat8; // 1-100
+  };
+
+  type BehavioralAnalysis = {
+    analysisId : Text;
+    userPrincipal : Principal;
+    timestamp : Int;
+    tradeIds : [Text]; // trades analyzed
+    emotionScore : Nat8; // 0-100 stability
+    detectedEmotions : [EmotionType];
+    dominantEmotion : EmotionType;
+    tradeStyle : TradeStyle;
+    riskLevel : RiskLevel;
+    recommendationLevel : UrgencyLevel;
+    patternFlags : [Text]; // "revenge_trading", "fomo_buying"
+    streakData : StreakData;
+    status : AnalysisStatus;
+  };
+
+  type StreakData = {
+    currentWinStreak : Nat;
+    currentLossStreak : Nat;
+    longestWinStreak : Nat;
+    longestLossStreak : Nat;
+    totalProfitable : Nat;
+    totalUnprofitable : Nat;
+  };
+
+  type AIFeedback = {
+    feedbackId : Text;
+    userPrincipal : Principal;
+    analysisId : ?Text;
+    timestamp : Int;
+    feedbackType : FeedbackType;
+    title : Text;
+    message : Text;
+    urgency : UrgencyLevel;
+    actionableSteps : [Text];
+    userResponse : ?Bool;
+    responseTime : ?Int;
+    relatedTradeIds : [Text];
+  };
+
+  type MoodCheckIn = {
+    checkInId : Text;
+    userPrincipal : Principal;
+    timestamp : Int;
+    moodScore : Nat8; // 1-10 happiness
+    stressLevel : Nat8; // 1-10 stress
+    confidenceLevel : Nat8; // 1-10 confidence
+    marketSentiment : Nat8; // 1-10 bullish
+    notes : ?Text;
+    tradingIntention : ?Text; // "bullish", "bearish", "neutral", "pause"
+  };
+
+  type SimulationTrade = {
+    simTradeId : Text;
+    userPrincipal : Principal;
+    timestamp : Int;
+    tokenPair : Text;
+    direction : TradeDirection;
+    volume : Float;
+    entryPrice : Float;
+    exitPrice : ?Float;
+    leverage : ?Nat8;
+    simulatedPnL : ?Float;
+    isActive : Bool;
+    marketCondition : Text; // "bull", "bear", "sideways"
+  };
+
+  type AlertRule = {
+    ruleId : Text;
+    userPrincipal : Principal;
+    name : Text;
+    condition : Text; // "leverage > 5", "loss_streak > 3"
+    isActive : Bool;
+    triggerCount : Nat;
+    lastTriggered : ?Int;
+  };
+
   // ========== STORAGE MAPS ==========
   // Core entity storage
   private stable var userEntries : [(Principal, UserProfile)] = [];
@@ -260,18 +264,18 @@ actor iNextDatabase {
 
   // ========== UPGRADE HOOKS ==========
   system func preupgrade() {
-    userEntries := HashMap.toArray(users);
-    tradeEntries := HashMap.toArray(trades);
-    analysisEntries := HashMap.toArray(analyses);
-    feedbackEntries := HashMap.toArray(feedbacks);
-    moodEntries := HashMap.toArray(moods);
-    simTradeEntries := HashMap.toArray(simTrades);
-    alertRuleEntries := HashMap.toArray(alertRules);
-    userTradesEntries := HashMap.toArray(userTrades);
-    userAnalysesEntries := HashMap.toArray(userAnalyses);
-    userFeedbackEntries := HashMap.toArray(userFeedback);
-    userMoodsEntries := HashMap.toArray(userMoods);
-    blockchainTradeEntries := HashMap.toArray(blockchainTrades);
+    userEntries := Iter.toArray(users.entries());
+    tradeEntries := Iter.toArray(trades.entries());
+    analysisEntries := Iter.toArray(analyses.entries());
+    feedbackEntries := Iter.toArray(feedbacks.entries());
+    moodEntries := Iter.toArray(moods.entries());
+    simTradeEntries := Iter.toArray(simTrades.entries());
+    alertRuleEntries := Iter.toArray(alertRules.entries());
+    userTradesEntries := Iter.toArray(userTrades.entries());
+    userAnalysesEntries := Iter.toArray(userAnalyses.entries());
+    userFeedbackEntries := Iter.toArray(userFeedback.entries());
+    userMoodsEntries := Iter.toArray(userMoods.entries());
+    blockchainTradeEntries := Iter.toArray(blockchainTrades.entries());
   };
 
   system func postupgrade() {
@@ -511,7 +515,11 @@ actor iNextDatabase {
   };
 
   public query func getUserActiveTrades(principal : Principal) : async [TradeRecord] {
-    let allTrades = await getUserTrades(principal, null);
+    let userTradesList = switch (userTrades.get(principal)) {
+      case (?tradeIds) { tradeIds };
+      case null { [] };
+    };
+    let allTrades = Array.mapFilter<Text, TradeRecord>(userTradesList, func(id) = trades.get(id));
     Array.filter(allTrades, func(trade : TradeRecord) : Bool = trade.isActive);
   };
 
@@ -545,8 +553,26 @@ actor iNextDatabase {
   };
 
   public query func getLatestAnalysis(principal : Principal) : async ?BehavioralAnalysis {
-    let analyses = await getUserAnalyses(principal, ?1);
-    if (analyses.size() > 0) { ?analyses[0] } else { null };
+    let userAnalysesList = switch (userAnalyses.get(principal)) {
+      case (?analysisIds) { analysisIds };
+      case null { [] };
+    };
+    let analysesBuffer = Buffer.Buffer<BehavioralAnalysis>(0);
+    for (id in userAnalysesList.vals()) {
+      switch (analyses.get(id)) {
+        case (?analysis) { analysesBuffer.add(analysis) };
+        case null { };
+      };
+    };
+    let sorted = Array.sort(
+      Buffer.toArray(analysesBuffer),
+      func(a : BehavioralAnalysis, b : BehavioralAnalysis) : { #less; #equal; #greater } {
+        if (a.timestamp > b.timestamp) { #less } else if (a.timestamp < b.timestamp) {
+          #greater;
+        } else { #equal };
+      },
+    );
+    if (sorted.size() > 0) { ?sorted[0] } else { null };
   };
 
   public query func getUserFeedback(principal : Principal, unreadOnly : Bool) : async [AIFeedback] {
@@ -605,10 +631,32 @@ actor iNextDatabase {
     mostTradedPair : ?Text;
     dominantEmotion : ?EmotionType;
   } {
-    let trades = await getUserTrades(principal, null);
-    let analyses = await getUserAnalyses(principal, null);
+    let userTradesList = switch (userTrades.get(principal)) {
+      case (?tradeIds) { tradeIds };
+      case null { [] };
+    };
+    let tradesBuffer = Buffer.Buffer<TradeRecord>(0);
+    for (id in userTradesList.vals()) {
+      switch (trades.get(id)) {
+        case (?trade) { tradesBuffer.add(trade) };
+        case null { };
+      };
+    };
+    let typedTrades = Buffer.toArray(tradesBuffer);
+    let userAnalysesList = switch (userAnalyses.get(principal)) {
+      case (?analysisIds) { analysisIds };
+      case null { [] };
+    };
+    let analysesBuffer = Buffer.Buffer<BehavioralAnalysis>(0);
+    for (id in userAnalysesList.vals()) {
+      switch (analyses.get(id)) {
+        case (?analysis) { analysesBuffer.add(analysis) };
+        case null { };
+      };
+    };
+    let typedAnalyses = Buffer.toArray(analysesBuffer);
     let profitableTrades = Array.filter(
-      trades,
+      typedTrades,
       func(trade : TradeRecord) : Bool {
         switch (trade.profitLoss) {
           case (?pnl) { pnl > 0.0 };
@@ -617,7 +665,7 @@ actor iNextDatabase {
       },
     ).size();
     let totalPnL = Array.foldLeft<TradeRecord, Float>(
-      trades,
+      typedTrades,
       0.0,
       func(acc, trade) {
         switch (trade.profitLoss) {
@@ -627,7 +675,7 @@ actor iNextDatabase {
       },
     );
     let leveragedTrades = Array.mapFilter<TradeRecord, Float>(
-      trades,
+      typedTrades,
       func(trade) {
         switch (trade.leverage) {
           case (?lev) { ?Float.fromInt(Nat8.toNat(lev)) };
@@ -639,14 +687,14 @@ actor iNextDatabase {
       Array.foldLeft<Float, Float>(leveragedTrades, 0.0, func(acc, lev) { acc + lev }) / Float.fromInt(leveragedTrades.size());
     } else { 0.0 };
     // Find most dominant emotion from recent analyses
-    let recentAnalyses = if (analyses.size() >= 5) {
-      Array.tabulate<BehavioralAnalysis>(5, func(i) = analyses[i]);
-    } else { analyses };
+    let recentAnalyses = if (typedAnalyses.size() >= 5) {
+      Array.tabulate<BehavioralAnalysis>(5, func(i) = typedAnalyses[i]);
+    } else { typedAnalyses };
     let dominantEmotion = if (recentAnalyses.size() > 0) {
       ?recentAnalyses[0].dominantEmotion;
     } else { null };
     {
-      totalTrades = trades.size();
+      totalTrades = typedTrades.size();
       profitableTrades = profitableTrades;
       totalPnL = totalPnL;
       averageLeverage = averageLeverage;
@@ -656,9 +704,20 @@ actor iNextDatabase {
   };
 
   public query func getTradesByTimeframe(principal : Principal, startTime : Int, endTime : Int) : async [TradeRecord] {
-    let allTrades = await getUserTrades(principal, null);
+    let userTradesList = switch (userTrades.get(principal)) {
+      case (?tradeIds) { tradeIds };
+      case null { [] };
+    };
+    let allTradesBuffer = Buffer.Buffer<TradeRecord>(0);
+    for (id in userTradesList.vals()) {
+      switch (trades.get(id)) {
+        case (?trade) { allTradesBuffer.add(trade) };
+        case null { };
+      };
+    };
+    let typedTrades = Buffer.toArray(allTradesBuffer);
     Array.filter(
-      allTrades,
+      typedTrades,
       func(trade : TradeRecord) : Bool {
         trade.timestamp >= startTime and trade.timestamp <= endTime
       },
@@ -666,7 +725,18 @@ actor iNextDatabase {
   };
 
   public query func getHighRiskTrades(principal : Principal, riskThreshold : Nat8) : async [TradeRecord] {
-    let allTrades = await getUserTrades(principal, null);
-    Array.filter(allTrades, func(trade : TradeRecord) : Bool = trade.riskScore >= riskThreshold);
+    let userTradesList = switch (userTrades.get(principal)) {
+      case (?tradeIds) { tradeIds };
+      case null { [] };
+    };
+    let allTradesBuffer = Buffer.Buffer<TradeRecord>(0);
+    for (id in userTradesList.vals()) {
+      switch (trades.get(id)) {
+        case (?trade) { allTradesBuffer.add(trade) };
+        case null { };
+      };
+    };
+    let typedTrades = Buffer.toArray(allTradesBuffer);
+    Array.filter(typedTrades, func(trade : TradeRecord) : Bool = trade.riskScore >= riskThreshold);
   };
 };

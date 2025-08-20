@@ -6,9 +6,10 @@ import { Input } from "@/components/LandingPageUI/input";
 import { Tooltip } from "@/components/LandingPageUI/tooltip";
 import INextAiLogo from "@/assets/inextai-logo.png";
 import ICPLogo from "@/assets/ICP.png";
-import { useAuth } from "@/lib/api/hooks/useAuth";
+import { useAuth } from "@/lib/hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { WalletConnectButton } from "./WalletConnectButton";
 
 const HeroSection = () => {
   const { 
@@ -158,14 +159,7 @@ const HeroSection = () => {
               </Button>
             )}
             
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-primary/50 text-primary hover:bg-primary/10 px-8 py-4 text-lg font-semibold"
-            >
-              <Wallet className="mr-2 h-5 w-5" />
-              Connect Wallet
-            </Button>
+            <WalletConnectButton />
           </div>
           
           {/* Feature Preview */}

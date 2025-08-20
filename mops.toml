@@ -1,0 +1,3 @@
+[dependencies]
+base = "0.14.9"
+nacdb = "0.14.3"
