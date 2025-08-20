@@ -1,12 +1,17 @@
 {
   "canisters": {
-    "iNextAi-EBTS-backend": {
+    "backend": {
       "main": "src/iNextAi-EBTS-backend/main.mo",
       "type": "motoko"
     },
-    "iNextAi-EBTS-frontend": {
+    "database": {
+      "main": "src/iNextAi-EBTS-backend/Database.mo",
+      "type": "motoko"
+    },
+    "assets": {
       "dependencies": [
-        "iNextAi-EBTS-backend"
+        "backend",
+        "database"
       ],
       "source": [
         "src/iNextAi-EBTS-frontend/dist"
@@ -36,7 +41,7 @@
     },
     "build": {
       "args": "",
-      "packtool": ""
+      "packtool": "mops sources"
     }
   },
   "output_env_file": ".env",

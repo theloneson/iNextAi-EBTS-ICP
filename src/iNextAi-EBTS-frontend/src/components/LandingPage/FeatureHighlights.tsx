@@ -1,5 +1,5 @@
 import { Brain, Heart, Shield, Zap, Target, Globe, Loader2 } from "lucide-react";
-import { useAuth } from "@/lib/api/hooks/useAuth";
+import { useAuth } from "@/lib/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const features = [

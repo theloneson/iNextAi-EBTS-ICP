@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
 import { componentTagger } from "lovable-tagger";
 import environment from "vite-plugin-environment";
 import dotenv from "dotenv";
@@ -43,12 +42,12 @@ export default defineConfig(({ mode }) => ({
           new URL("../declarations", import.meta.url)
         ),
       },
-      { 
-        find: "@", 
+      {
+        find: "@",
         replacement: fileURLToPath(new URL("./src", import.meta.url))
       },
-      { 
-        find: "@LandingPageUI", 
+      {
+        find: "@LandingPageUI",
         replacement: fileURLToPath(new URL("./src/components/LandingPageUI", import.meta.url))
       },
     ],

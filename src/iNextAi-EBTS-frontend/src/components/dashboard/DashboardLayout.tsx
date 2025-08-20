@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/api/hooks/useAuth";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;

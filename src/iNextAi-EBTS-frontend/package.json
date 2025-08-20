@@ -1,10 +1,10 @@
 {
-  "name": "iNextAi-EBTS-frontend",
+  "name": "inextai-ebts-frontend",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "setup": "npm i && dfx canister create iNextAi-EBTS-backend && dfx generate iNextAi-EBTS-backend && dfx deploy",
+    "setup": "bun i && dfx canister create iNextAi-EBTS-backend && dfx generate iNextAi-EBTS-backend && dfx deploy",
     "start": "vite --port 3000",
     "prebuild": "dfx generate",
     "build": "tsc && vite build",
@@ -44,7 +44,9 @@
     "@radix-ui/react-toggle": "^1.1.0",
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
-    "@tanstack/react-query": "^5.83.0",
+    "@reown/appkit": "^1.7.20",
+    "@reown/appkit-adapter-wagmi": "^1.7.20",
+    "@tanstack/react-query": "^5.85.5",
     "axios": "^1.11.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -60,15 +62,17 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-resizable-panels": "^2.1.3",
-    "react-router-dom": "^6.30.1",
+    "react-router-dom": "^7.8.1",
     "recharts": "^2.12.7",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.3",
+    "viem": "^2.34.0",
     "vite_react_shadcn_ts": ".",
+    "wagmi": "^2.16.4",
     "zod": "^3.23.8",
-    "zustand": "^5.0.6"
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.1",
