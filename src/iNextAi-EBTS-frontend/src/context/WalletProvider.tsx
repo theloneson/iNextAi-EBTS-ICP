@@ -7,6 +7,7 @@ import {
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ReactNode } from "react";
+import { wagmiConfig } from "@/lib/config/web3Modal";
 
 // Import Solana wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -26,7 +27,7 @@ export function WalletProviders({
   const { endpoint, wallets } = useSolanaWallets(solanaNetwork);
 
   return (
-    <WagmiProvider config={WagmiConfig}>
+    <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets} autoConnect>

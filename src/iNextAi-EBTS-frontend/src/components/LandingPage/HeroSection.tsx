@@ -9,7 +9,7 @@ import ICPLogo from "@/assets/ICP.png";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { WalletConnectButton } from "./WalletConnectButton";
+import { WalletConnection } from "./WalletConnectButton";
 
 const HeroSection = () => {
   const { 
@@ -159,7 +159,7 @@ const HeroSection = () => {
               </Button>
             )}
             
-            <WalletConnectButton />
+            <WalletConnection />
           </div>
           
           {/* Feature Preview */}

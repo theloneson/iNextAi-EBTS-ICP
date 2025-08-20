@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
 import { componentTagger } from "lovable-tagger";
 import environment from "vite-plugin-environment";
 import dotenv from "dotenv";
@@ -50,6 +49,12 @@ export default defineConfig(({ mode }) => ({
       { 
         find: "@LandingPageUI", 
         replacement: fileURLToPath(new URL("./src/components/LandingPageUI", import.meta.url))
+      },
+      {
+        find: "@walletconnect/relay-auth",
+        replacement: fileURLToPath(
+          new URL("./node_modules/@walletconnect/relay-auth/dist/index.es.js", import.meta.url)
+        ),
       },
     ],
     dedupe: ['@dfinity/agent'],

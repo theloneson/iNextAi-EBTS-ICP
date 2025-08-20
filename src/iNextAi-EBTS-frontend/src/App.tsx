@@ -11,6 +11,7 @@ import CopilotPage from "./pages/CopilotPage";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
+import { WalletProviders } from "./context/WalletProvider";
 
 const queryClient = new QueryClient();
 

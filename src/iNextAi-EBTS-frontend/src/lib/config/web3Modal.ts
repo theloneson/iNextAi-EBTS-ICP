@@ -3,12 +3,12 @@ import { mainnet, polygon, base } from "viem/chains";
 
 // 1. Get projectId from https://cloud.walletconnect.com
 const projectId =
-  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "your-project-id";
+  import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || "your-project-id";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "iNext AI - Emotional Blockchain Trading System",
   description: "AI-powered trading companion for emotional wellness",
+  name: "iNext AI - Emotional Blockchain Trading System",
   url: "https://inext-ai.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
