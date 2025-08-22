@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "setup": "bun i && dfx canister create backend && dfx generate backend && dfx deploy",
+    "setup": "bun i && dfx canister create iNextAi-EBTS-backend && dfx generate iNextAi-EBTS-backend && dfx deploy",
     "start": "vite --port 3000",
     "prebuild": "dfx generate",
     "build": "tsc && vite build",
@@ -53,6 +53,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
+    "framer-motion": "^12.23.12",
     "input-otp": "^1.2.4",
     "lightweight-charts": "^5.0.8",
     "lucide-react": "^0.462.0",

@@ -2,55 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Color system with neon landing page palette + theme toggle support */
 
 @layer base {
   :root {
-    --background: 218 50% 4%;
-    --foreground: 210 100% 95%;
+    /* Landing page neon palette as default (dark mode base) */
+    --background: 226 45% 10%; /* Deep navy blue */
+    --foreground: 210 40% 98%;
 
-    --card: 218 45% 6%;
-    --card-foreground: 210 100% 95%;
+    --card: 221 39% 14%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 218 45% 6%;
-    --popover-foreground: 210 100% 95%;
+    --popover: 221 39% 14%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 60%;
-    --primary-foreground: 210 100% 95%;
-    --primary-glow: 210 100% 70%;
+    --primary: 240 83% 67%; /* Neon Indigo/Purple */
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 218 39% 11%;
-    --secondary-foreground: 210 100% 95%;
+    --secondary: 174 72% 40%; /* Neon Teal */
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 218 39% 11%;
-    --muted-foreground: 215 27% 65%;
+    --muted: 215 28% 25%;
+    --muted-foreground: 217 10% 64%;
 
-    --accent: 200 100% 50%;
-    --accent-foreground: 210 100% 95%;
+    --accent: 50 100% 50%; /* Bright Yellow */
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 72% 51%;
-    --destructive-foreground: 210 100% 95%;
+    --destructive-foreground: 210 40% 98%;
 
-    --success: 142 76% 36%;
-    --success-foreground: 210 100% 95%;
+    --success: 142 72% 45%;
+    --success-foreground: 210 40% 98%;
 
     --warning: 45 93% 58%;
     --warning-foreground: 218 50% 4%;
 
-    --border: 218 39% 11%;
-    --input: 218 39% 11%;
-    --ring: 210 100% 60%;
+    --border: 221 39% 18%;
+    --input: 221 39% 18%;
+    --ring: 240 83% 67%;
 
     --radius: 0.75rem;
 
-    /* Tech Blue Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 60%), hsl(195 100% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(218 39% 11%), hsl(210 100% 8%));
+    /* Neon gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(240 83% 67%), hsl(174 72% 40%));
+    --gradient-secondary: linear-gradient(135deg, hsl(221 39% 14%), hsl(226 45% 10%));
+
+    /* Neon glows */
+    --glow-primary: 0 0 20px rgba(99, 102, 241, 0.5);
+    --glow-accent: 0 0 15px rgba(250, 204, 21, 0.5);
+    --glow-success: 0 0 15px rgba(34, 197, 94, 0.5);
   }
 
   .light {
+    /* Light mode version of neon palette */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -60,73 +64,37 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 210 100% 60%;
+    --primary: 240 83% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
+    --secondary: 174 72% 35%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 45%;
 
-    --accent: 200 100% 40%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 50 100% 45%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 142 76% 36%;
-    --success-foreground: 210 40% 98%;
+    --success: 142 72% 35%;
+    --success-foreground: 0 0% 100%;
 
     --warning: 45 93% 47%;
     --warning-foreground: 222.2 84% 4.9%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 210 100% 50%;
+    --border: 210 15% 85%;
+    --input: 210 15% 85%;
+    --ring: 240 83% 55%;
 
-    /* Light mode gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 50%), hsl(195 100% 55%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 40% 96%), hsl(210 40% 90%));
+    --gradient-primary: linear-gradient(135deg, hsl(240 83% 55%), hsl(174 72% 35%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 20% 96%));
   }
 
   .dark {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 98%;
-
-    --card: 220 39% 11%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 220 39% 11%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 215 28% 17%;
-    --muted-foreground: 217 10% 64%;
-
-    --accent: 215 28% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 215 28% 17%;
-    --input: 215 28% 17%;
-    --ring: 221 83% 53%;
-    --sidebar-background: 218 50% 6%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 215 28% 17%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 28% 17%;
-    --sidebar-ring: 221 83% 53%;
+    /* Dark mode — same as :root for consistency */
   }
 }
 
@@ -134,10 +102,9 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
-    background: radial-gradient(ellipse at top, hsl(210 100% 8%), hsl(218 50% 4%));
+    background: radial-gradient(ellipse at top, hsl(var(--background)), hsl(226 45% 10%));
     min-height: 100vh;
   }
 }
@@ -146,28 +113,10 @@ All colors MUST be HSL.
   .glass-card {
     @apply backdrop-blur-xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-400/10;
   }
-  
-  .glow-primary {
-    box-shadow: var(--glow-primary);
-  }
-  
-  .glow-accent {
-    box-shadow: var(--glow-accent);
-  }
-  
-  .glow-success {
-    box-shadow: var(--glow-success);
-  }
-  
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
-  
-  .gradient-secondary {
-    background: var(--gradient-secondary);
-  }
-  
-  .gradient-accent {
-    background: var(--gradient-accent);
-  }
+  .glow-primary { box-shadow: var(--glow-primary); }
+  .glow-accent { box-shadow: var(--glow-accent); }
+  .glow-success { box-shadow: var(--glow-success); }
+  .gradient-primary { background: var(--gradient-primary); }
+  .gradient-secondary { background: var(--gradient-secondary); }
+  .gradient-accent { background: var(--gradient-accent); }
 }
