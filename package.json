@@ -17,6 +17,7 @@
     "src/iNextAi-EBTS-frontend"
   ],
   "dependencies": {
+    "framer-motion": "^12.23.12",
     "nanoid": "^5.1.5",
     "react-rnd": "^10.5.2",
     "zustand": "^5.0.8"
