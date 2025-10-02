@@ -240,14 +240,14 @@ const OrderForm = ({
       {/* Execute Button */}
       <Button
         onClick={onTrade}
-        className={`w-full h-12 text-lg font-semibold ${
+        className={`w-full h-12 text-lg font-semibold transition-all duration-200 ${
           isBuy 
-            ? 'bg-success hover:bg-success/90 text-success-foreground' 
-            : 'bg-destructive hover:bg-destructive/90 text-destructive-foreground'
+            ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-green-600/25' 
+            : 'bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-red-600/25'
         }`}
         disabled={!amount}
       >
-        {isBuy ? 'Buy' : 'Sell'} {asset}
+        {isBuy ? '🚀 Buy' : '📉 Sell'} {asset}
       </Button>
 
       {/* Order Summary */}
